@@ -1,0 +1,101 @@
+<!-- public/index.html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>File Upload</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+      #uploadForm {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      input[type="file"],
+      button {
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="uploadForm">
+      <h1>Upload a File</h1>
+      <form id="form">
+        <input type="file" name="file" required />
+        <button type="submit">Upload</button>
+      </form>
+      <div id="fileLink"></div>
+    </div>
+
+    <script>
+      const form = document.getElementById("form");
+      const fileLink = document.getElementById("fileLink");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+
+        const response = await fetch("/upload", {
+          method: "POST",
+          body: formData,
+        });
+
+        const result = await response.json();
+        if (result.url) {
+          fileLink.innerHTML = `<a href="${result.url}" target="_blank">Your File</a>`;
+        } else {
+          fileLink.textContent = "File upload failed";
+        }
+      });
+    </script>
+  </body>
+</html> -->
+
+<pre>
+THE NULL POINTER
+================
+
+HTTP POST files here:
+    curl -F'file=@yourfile.png' https://localhost:5000/uploads
+You can also POST remote URLs:
+    curl -F'url=http://example.com/image.jpg' http://localhost:5000/uploads
+If you don't want the resulting URL to be easy to guess:
+    curl -F'file=@yourfile.png' -Fsecret= http://localhost:5000/uploads
+    curl -F'url=http://example.com/image.jpg' -Fsecret= http://localhost:5000/uploads
+Or you can shorten URLs:
+    curl -F'shorten=http://example.com/some/long/url' http://localhost:5000/uploads
+
+It is possible to append your own file name to the URL:
+    http://localhost:5000/uploads/aaa.jpg/image.jpeg
+
+File URLs are valid for at least 30 days and up to a year (see below).
+Shortened URLs do not expire.
+
+Files can be set to expire sooner by adding an "expires" parameter (in hours)
+    curl -F'file=@yourfile.png' -Fexpires=24 http://localhost:5000/uploads
+OR by setting "expires" to a timestamp in epoch milliseconds
+    curl -F'file=@yourfile.png' -Fexpires=1681996320000 http://localhost:5000/uploads
+
+Expired files won't be removed immediately, but will be removed as part of
+the next purge.
+
+Whenever a file that does not already exist or has expired is uploaded,
+the HTTP response header includes an X-Token field. You can use this
+to perform management operations on the file.
+
+To delete the file immediately:
+    curl -Ftoken=token_here -Fdelete= http://localhost:5000/uploads/abc.txt
+To change the expiration date (see above):
+    curl -Ftoken=token_here -Fexpires=3 http://localhost:5000/uploads/abc.txt
+
+
+Maximum file size: 256.0 MiB
+Not allowed: application/x-dosexec, application/java-archive, application/java-vm
+</pre>
