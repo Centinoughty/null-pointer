@@ -21,24 +21,24 @@ A simple file upload service built with Node.js, Express, and Multer. This servi
 
 1. Clone the repository:
 
-   ```bash
-        git clone https://github.com/Centinoughty/null-pointer.git
-   ```
+  ```bash
+      git clone https://github.com/Centinoughty/null-pointer.git
+  ```
 
 2. Navigate to the project directory:
 
-   ```bash
-        cd null-pointer
-   ```
+  ```bash
+      cd null-pointer
+  ```
 
 3. Install the dependencies:
 
-   ```bash
-      npm install
-   ```
+  ```bash
+    npm install
+  ```
 
 4. Start the server:
 
-    ```bash
-        npm start
-    ```
+  ```bash
+      npm start
+  ```
