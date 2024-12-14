@@ -1,7 +1,7 @@
 const cron = require("node-cron");
 const File = require("../models/FileModel");
 
-cron.schedule("* * * * *", async () => {
+cron.schedule("0 * * * *", async () => {
   console.log("Running cleanup");
 
   try {
