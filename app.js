@@ -5,7 +5,9 @@ require("dotenv").config();
 require("./tasks/cronTask");
 
 const { connectDb } = require("./config/db");
+const logRoute = require("./middlewares/logAccess");
 const fileRoute = require("./route/file");
+const logAccess = require("./middlewares/logAccess");
 
 const app = express();
 const PORT = process.env.PORT;
@@ -17,6 +19,7 @@ if (!fs.existsSync(UPLOAD_DIR)) {
 }
 
 app.use(express.json());
+app.use(logAccess);
 app.use("/api/files", fileRoute);
 
 connectDb();
